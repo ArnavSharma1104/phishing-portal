@@ -8,7 +8,7 @@ function CreateTemplate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("https://phishing-backend-3.onrender.com/api/templates/create", {
+    const res = await fetch("https://phishing-backend-3.onrender.com/api/templates", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
