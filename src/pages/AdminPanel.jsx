@@ -40,7 +40,7 @@ function AdminPanel() {
 
   const deleteLog = async (id) => {
     try {
-      const res = await fetch(`https://phishing-backend-3.onrender.com/api/activity/logs/${id}`, {
+      const res = await fetch("https://phishing-backend-3.onrender.com/api/activity/logs/${id}", {
         method: "DELETE",
       });
       if (res.ok) {
