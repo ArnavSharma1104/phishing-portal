@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function CreateTemplate() {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
+  const [templates, setTemplates] = useState([]); // For displaying saved templates
+
+  // Fetch existing templates on mount
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const res = await fetch("https://phishing-backend-3.onrender.com/api/templates");
+        const data = await res.json();
+        setTemplates(data.templates || []); // <-- Important: your backend wraps it in `templates`
+      } catch (err) {
+        console.error("❌ Error fetching templates:", err);
+      }
+    };
+
+    fetchTemplates();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("https://phishing-backend-3.onrender.com/api/templates/create", {
+    const res = await fetch("https://phishing-backend-3.onrender.com/api/templates", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,6 +38,7 @@ function CreateTemplate() {
       setTitle("");
       setSubject("");
       setBody("");
+      setTemplates([...templates, data.template]); // Optional: add new to list
     } else {
       alert("❌ Error: " + data.error);
     }
@@ -61,6 +78,22 @@ function CreateTemplate() {
           Save Template
         </button>
       </form>
+
+      {/* Show saved templates */}
+      <div className="mt-10">
+        <h3 className="text-lg font-semibold mb-2">📂 Saved Templates</h3>
+        <ul className="space-y-2">
+          {templates.map((tpl) => (
+            <li key={tpl._id} className="p-3 border rounded bg-white text-black">
+              <p><strong>📌 Title:</strong> {tpl.title || "(Untitled)"}</p>
+              <p><strong>📨 Subject:</strong> {tpl.subject}</p>
+              <p className="text-sm text-gray-500">
+                🕒 {new Date(tpl.createdAt).toLocaleString()}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

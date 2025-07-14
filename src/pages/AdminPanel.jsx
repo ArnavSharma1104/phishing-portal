@@ -20,8 +20,8 @@ function AdminPanel() {
       .catch((err) => console.error("❌ Failed to fetch logs:", err));
 
     fetch("https://phishing-backend-3.onrender.com/api/templates")
-      .then((res) => res.json())
-      .then((data) => setTemplates(data))
+  .then((res) => res.json())
+  .then((data) => setTemplates(data.templates)) // ✅ Only the array
       .catch((err) => console.error("❌ Failed to fetch templates:", err));
 
     fetch("https://phishing-backend-3.onrender.com/api/fake-login")
